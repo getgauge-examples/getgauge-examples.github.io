@@ -1,0 +1,44 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% seo %}
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ "/assets/style.css" | prepend: site.baseurl }}">
+    <link rel="icon" type="image/x-icon" href="{{ "/favicon.ico" | prepend: site.baseurl }}" />
+
+    {% if jekyll.environment == 'production' and site.google_analytics %}
+        {% include google-analytics.html %}
+    {% endif %}
+    <style>
+        body {
+            background-color: #F5C20F;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td,th {
+            padding: 5px 15px;
+            text-align: left;
+            border-bottom: 1px solid #B58F0B;
+            font-size: medium;
+        }
+        a {
+            color: #755C07;
+        }
+        .logo {
+            height: 4em;
+            margin-top: 1em;
+        }
+        header.container {
+            text-align: center;
+        }
+        header.container > h1{
+            margin-top: 0.2em;
+            margin-left: 0.2em;
+        }
+    </style>
+</head>

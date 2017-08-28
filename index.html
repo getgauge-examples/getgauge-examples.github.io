@@ -1,0 +1,220 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gauge Examples</title>
+    <meta name="description" content="Gauge Examples">
+    <meta name="author" content="getgauge">
+    <link href="favicon.ico" rel="shortcut icon" type="image/ico" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style>
+        body {
+            background-color: #F5C20F;
+            text-align: center;
+        }
+
+        .table-container {
+            display: inline-block;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 5px 15px;
+            text-align: left;
+            border-bottom: 1px solid #B58F0B;
+            font-size: medium;
+        }
+
+        a {
+            color: #755C07;
+        }
+
+        .logo {
+            height: 4em;
+            margin-top: 1em;
+        }
+
+        header.container {
+            text-align: center;
+        }
+
+        header.container>h1 {
+            margin-top: 0.2em;
+            margin-left: 0.2em;
+        }
+        
+        /* http://tobiasahlin.com/spinkit/ */
+        .spinner {
+            width: 1em;
+            height: 1em;
+            background-color: #755C07;
+
+            margin: 100px auto;
+            -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+            animation: sk-rotateplane 1.2s infinite ease-in-out;
+        }
+
+        @-webkit-keyframes sk-rotateplane {
+            0% {
+                -webkit-transform: perspective(120px)
+            }
+            50% {
+                -webkit-transform: perspective(120px) rotateY(180deg)
+            }
+            100% {
+                -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+            }
+        }
+
+        @keyframes sk-rotateplane {
+            0% {
+                transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+                -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+            }
+            50% {
+                transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+                -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+            }
+            100% {
+                transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="container">
+        <img class="logo" src="https://docs.getgauge.io/_static/img/Gauge-Logo.svg">
+        <h4>Examples</h4>
+    </header>
+    <div class="table-container">
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Build Status</th>
+                </tr>
+            </thead>
+            <tbody id="repos">
+            </tbody>
+        </table>
+    </div>
+    <p>
+        <a href="https://stackoverflow.com/questions/tagged/getgauge">
+            <img src="https://img.shields.io/stackexchange/stackoverflow/t/getgauge.svg?colorB=755C07&amp;logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAnFBMVEUAAADs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PHs8PG3iEVjAAAAM3RSTlMAAQMGBwkLDA0QExweKS4wMzc4PkdJT1JdY2dvc3WDjpiam6avtcfMz9ng4ubp7fHz9/tqGqSaAAAAfUlEQVQYGV3BBw6CQABFwb/YUOy9IIpgb8i7/92ErBLCjKzGKzAqa185tVTmhCR9/ZmoJy1gY2QN4DIy3oNjXVY3gvu0HfN09dPZwXsdRsqNb8GkY5rblE9NuRWZNF7O9r4sx5sfEjKeJJDlDv2zAwJREAhEQSBQCYgKUfEFJ7oYF2usUEAAAAAASUVORK5CYII=" alt="StackOverflow" />
+        </a>
+    </p>
+    <script type="text/javascript">
+        (function () {
+            var xhr = newXHRRequest("GET", "https://api.github.com/orgs/getgauge-examples/repos");
+            if (!xhr) {
+                console.log("Unable to create XHR.")
+                return;
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        repos = JSON.parse(xhr.responseText);
+                        populate(repos)
+                    }
+                    else {
+                        console.log('Error retrieving projects from github :' + xhr.status);
+                    }
+                }
+            };
+            xhr.send();
+        })();
+
+        function populate(repos) {
+            for (var i = 0; i < repos.length; i++) {
+                var repo = repos[i];
+                if (repo.name == "getgauge-examples.github.io") {
+                    continue;
+                }
+                var tbody = document.getElementById("repos");
+                var tr = document.createElement("tr");
+                var name = document.createElement("td");
+                var nameAnchor = document.createElement("a")
+                var nameText = document.createTextNode(repo.name);
+                nameAnchor.title = repo.name;
+                nameAnchor.href = repo.html_url;
+                nameAnchor.appendChild(nameText);
+                name.appendChild(nameAnchor);
+                var desc = document.createElement("td");
+                var descText = document.createTextNode(repo.description);
+                desc.appendChild(descText);
+                var build = document.createElement("td");
+                build.id = repo.name + "-build";
+                build.innerHTML = "<div class='spinner'></div>";
+                build.className = "centered";
+                tr.appendChild(name);
+                tr.appendChild(desc);
+                tr.appendChild(build);
+                tbody.appendChild(tr);
+                getBuildStatus(repo)
+                    .then(function (res) {
+                        var b = document.getElementById(res.repo.name + "-build");
+                        b.innerHTML = "";
+                        for (var i = 0; i < res.builds.length; i++) {
+                            b.innerHTML += res.builds[i];
+                        }
+                    });
+            }
+        }
+
+        function getBuildStatus(repo) {
+            return new Promise((resolve, reject) => {
+                var url = "https://api.github.com/repos/" + repo.full_name + "/contents/README.md";
+                var xhr = newXHRRequest("GET", url)
+                xhr.onload = function () {
+                    if (xhr.status == 200) {
+                        var buildStatuses = []
+                        var html = document.createElement("html");
+                        html.innerHTML = xhr.responseText;
+                        var anchors = html.getElementsByTagName("a");
+                        for (var i = 0; i < anchors.length; i++) {
+                            var anchor = anchors[i];
+                            if (anchor.getElementsByTagName("img").length > 0 && anchor.innerHTML.indexOf("report") < 0)
+                                buildStatuses.push("<div>" + anchor.outerHTML+ "</div>");
+                        }
+                        resolve({ repo: repo, builds: buildStatuses });
+                    }
+                    else {
+                        reject(Error(xhr.statusText));
+                    }
+                };
+
+                xhr.onerror = function () {
+                    reject(Error("Network Error"));
+                };
+
+                xhr.setRequestHeader("Accept", "application/vnd.github.VERSION.html");
+                xhr.send();
+            });
+        }
+
+        function newXHRRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                xhr = null;
+            }
+            return xhr;
+        }
+    </script>
+</body>
+
+</html>

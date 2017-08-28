@@ -1,8 +1,0 @@
-title: Examples
-
-theme: jekyll-skeleton
-plugins:
-  - jekyll-seo-tag
-exclude:
-  - Gemfile
-  - Gemfile.lock
